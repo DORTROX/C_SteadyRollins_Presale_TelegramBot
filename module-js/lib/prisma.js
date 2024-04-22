@@ -62,7 +62,6 @@ const find_user_bots = async (user_Id) => {
         PresaleBots: true,
       },
     });
-    console.log("user", user);
     return user;
   } catch (e) {
     await prisma.$disconnect();
@@ -73,4 +72,4 @@ const find_user_bots = async (user_Id) => {
 
 // }
 
-export { create_user, create_bot,find_user_bots };
+export { create_user, create_bot, find_user_bots };
