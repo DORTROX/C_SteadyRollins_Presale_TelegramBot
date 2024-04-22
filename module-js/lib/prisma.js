@@ -10,7 +10,7 @@ async function create_user(user_Id, telegram_username) {
     .create({
       data: {
         id: user_Id,
-        Telegram_Username: "dortrox",
+        Telegram_Username: telegram_username,
       },
     })
     .then(async () => {
