@@ -18,17 +18,63 @@ model User {
   Telegram_Username String   @unique
   // bots
   createdAt         DateTime @default(now())
-  PresaleBots       Bot[]
+  Bots              Bot[]
 }
 
 model Bot {
-  id              String   @id @default(cuid()) @map("_id")
-  bot_name        String
-  bot_token       String
+  id             String   @id @default(cuid()) @map("_id")
+  bot_name       String
+  bot_token      String
   tokenAddress   String?
-  user_Id         String
-  WelcomeMessage  String   @default("Welcome to the BOT!")
-  SuccessMessage  String   @default("Woohoo. You bought the tokens. Check your wallet.")
-  createdAt       DateTime @default(now())
-  owner           User     @relation(fields: [user_Id], references: [id])
+  user_Id        String
+  WelcomeMessage String   @default("Welcome to the BOT!")
+  SuccessMessage String   @default("Woohoo. You bought the tokens. Check your wallet.")
+  createdAt      DateTime @default(now())
+  owner          User     @relation(fields: [user_Id], references: [id])
+  Presale        Presale?
+  Airdrop        Airdrop?
+}
+
+model PresaleStage {
+  id          String   @id @default(cuid()) @map("_id")
+  presale_Id  String
+  stage_name  String
+  stage_start DateTime
+  stage_end   DateTime
+  createdAt   DateTime @default(now())
+  presale     Presale  @relation(fields: [presale_Id], references: [id])
+}
+
+model Presale {
+  id             String         @id @default(cuid()) @map("_id")
+  bot_Id         String         @unique
+  presale_name   String
+  presale_supply Float
+  presale_start  DateTime
+  presale_end    DateTime
+  presale_stage  PresaleStage[]
+  createdAt      DateTime       @default(now())
+  bot            Bot            @relation(fields: [bot_Id], references: [id])
+}
+
+model UserAirdropWon {
+  id          String   @id @default(cuid()) @map("_id")
+  user_Id     String
+  airdrop_Id  String
+  createdAt   DateTime @default(now())
+  tokenAmount Float
+  airdropRoot Airdrop  @relation(fields: [id], references: [id])
+}
+
+model Airdrop {
+  id                   String           @id @default(cuid()) @map("_id")
+  bot_Id               String           @unique
+  airdrop_name         String
+  airdrop_token        String
+  airdrop_total_amount Float
+  airdrop_start        DateTime         @default(now())
+  airdrop_end          DateTime?
+  Winners              UserAirdropWon[]
+  createdAt            DateTime         @default(now())
+  bot                  Bot              @relation(fields: [bot_Id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
