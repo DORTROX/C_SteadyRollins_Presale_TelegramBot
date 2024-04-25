@@ -1,11 +1,14 @@
 {
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "@solana/spl-token": "^0.4.6",
+    "@solana/web3.js": "^1.91.7",
     "@telegraf/session": "^2.0.0-beta.7",
     "dotenv": "^16.4.5",
     "telegraf": "^4.16.3",
     "telegraf-inline-menu": "^6.3.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",

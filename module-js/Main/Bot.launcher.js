@@ -1,6 +1,7 @@
 import { session } from "telegraf/session";
 import { configDotenv } from "dotenv";
 import { Telegraf } from "telegraf";
+// import { SlashCommand } from "../lib/Bot.SetCommands.js";
 configDotenv();
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
@@ -15,5 +16,7 @@ bot.use(
     },
   })
 );
+
+// SlashCommand()
 
 export { bot };

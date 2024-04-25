@@ -23,6 +23,7 @@ model User {
 
 model Bot {
   id             String   @id @default(cuid()) @map("_id")
+  bot_id         String   @unique
   bot_name       String
   bot_token      String
   tokenAddress   String?
@@ -39,6 +40,7 @@ model PresaleStage {
   id          String   @id @default(cuid()) @map("_id")
   presale_Id  String
   stage_name  String
+  token_price String
   stage_start DateTime
   stage_end   DateTime
   createdAt   DateTime @default(now())
@@ -58,12 +60,13 @@ model Presale {
 }
 
 model UserAirdropWon {
-  id          String   @id @default(cuid()) @map("_id")
-  user_Id     String
-  airdrop_Id  String
-  createdAt   DateTime @default(now())
-  tokenAmount Float
-  airdropRoot Airdrop  @relation(fields: [id], references: [id])
+  id                 String   @id @default(cuid()) @map("_id")
+  user_Id            String
+  airdrop_Id         String
+  createdAt          DateTime @default(now())
+  tokenAmount        Float
+  tokenAmountClaimed Float
+  airdropRoot        Airdrop  @relation(fields: [id], references: [id])
 }
 
 model Airdrop {
