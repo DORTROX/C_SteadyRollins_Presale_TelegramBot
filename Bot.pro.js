@@ -2,8 +2,8 @@ import { SceneLauncer } from "./module-js/Main/Bot.command.js";
 import { bot } from "./module-js/Main/Bot.launcher.js";
 
 import { stage } from "./module-js/Stage/StageManager.js";
-import { create_user, find_user_bots } from "./module-js/lib/prisma.js";
-import { MenuBuilder } from "./modules/Menu/Bot.menu.js";
+import { create_user } from "./module-js/lib/prisma.js";
+import { MenuBuilder } from "./module-js/Menu/Bot.menu.js";
 
 bot.use(stage.middleware());
 
@@ -20,7 +20,7 @@ bot.use(async (ctx, next) => {
   return next();
 });
 
-bot.command("ls", async (ctx) => {
+bot.command("manage", async (ctx) => {
   const MenuUI = await MenuBuilder(ctx);
   MenuUI.replyToContext(ctx);
   bot.use(MenuUI.middleware());
@@ -37,9 +37,7 @@ bot.start((ctx) => {
 });
 
 //Scene Launcher
-bot.command("createBot", (ctx) => SceneLauncer(ctx, "TokenAuth"));
-
-bot.command("gb", (ctx) => find_user_bots(ctx.from.id.toString()));
+bot.command("create", (ctx) => SceneLauncer(ctx, "TokenAuth"));
 
 bot.on("message", (ctx) => {
   ctx.session.count = ctx.session.count || 0;

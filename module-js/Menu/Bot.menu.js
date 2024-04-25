@@ -15,9 +15,10 @@ const ManagerBuilderUi = async (bot) => {
 
   DeleteMenu.interact("Yes", `delete_${bot.bot_name}`, {
     do: async (ctx) => {
-      console.log(ctx.update.callback_query.message);
+      await ctx.deleteMessage();
 
-      return true;
+      ctx.reply("Deleted...");
+      return false;
     },
   }),
     DeleteMenu.interact("No", `cancel_${bot.bot_name}`, {
@@ -42,7 +43,7 @@ const ManagerBuilderUi = async (bot) => {
 export const MenuBuilderUI = async (ctx) => {
   const AirdropList = new MenuTemplate(() => "Please choose an Airdrop");
   const userBots = await find_user_bots(ctx.from.id.toString());
-  userBots.PresaleBots.map(async (bot) => {
+  userBots.Bots.map(async (bot) => {
     const manager = await ManagerBuilderUi(bot, ctx);
     AirdropList.submenu(bot.bot_name, `manager-${bot.bot_name}`, manager, {
       hide: () => !mainMenuToggle,

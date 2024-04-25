@@ -41,12 +41,14 @@ const create_bot = async (ctx, bot) => {
       data: {
         bot_token: bot.token,
         bot_name: bot.username,
+        bot_id: bot.id.toString(),
         user_Id: ctx.from.id.toString(),
       },
     });
     prisma.$disconnect();
     return true;
   } catch (e) {
+    console.log(e)
     await prisma.$disconnect();
     return false;
   }
@@ -59,11 +61,12 @@ const find_user_bots = async (user_Id) => {
         id: user_Id,
       },
       include: {
-        PresaleBots: true,
+        Bots: true,
       },
     });
     return user;
   } catch (e) {
+    console.log(e)
     await prisma.$disconnect();
   }
 };
