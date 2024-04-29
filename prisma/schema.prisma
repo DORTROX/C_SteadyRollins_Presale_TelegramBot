@@ -36,28 +36,28 @@ model Bot {
   Airdrop        Airdrop?
 }
 
-model PresaleStage {
-  id          String   @id @default(cuid()) @map("_id")
-  presale_Id  String
-  stage_name  String
-  token_price String
-  stage_start DateTime
-  stage_end   DateTime
-  createdAt   DateTime @default(now())
-  presale     Presale  @relation(fields: [presale_Id], references: [id])
-}
-
 model Presale {
   id             String         @id @default(cuid()) @map("_id")
   bot_Id         String         @unique
-  presale_name   String
   presale_supply Float
-  presale_start  DateTime
-  presale_end    DateTime
+  presale_supplyLeft  Float
   presale_stage  PresaleStage[]
   createdAt      DateTime       @default(now())
   bot            Bot            @relation(fields: [bot_Id], references: [id])
 }
+
+model PresaleStage {
+  id              String   @id @default(cuid()) @map("_id")
+  presale_Id      String
+  stageName       String
+  tokenPrice      Float
+  tokensPerSOL    Int
+  stageStart      DateTime
+  stageEnd        DateTime
+  createdAt       DateTime @default(now())
+  presale         Presale  @relation(fields: [presale_Id], references: [id])
+}
+
 
 model UserAirdropWon {
   id                 String   @id @default(cuid()) @map("_id")

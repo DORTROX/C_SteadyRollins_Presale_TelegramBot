@@ -1,11 +1,13 @@
 import { session } from "telegraf/session";
 import { configDotenv } from "dotenv";
 import { Telegraf } from "telegraf";
+import { find_bot } from "../lib/prisma.js";
 
 configDotenv();
 let bot;
+let botDetails;
 
-const initializeBot = (token) => {
+const initializeBot = async (token) => {
   bot = new Telegraf(token);
   bot.use(
     session({
@@ -18,6 +20,12 @@ const initializeBot = (token) => {
       },
     })
   );
+  const BotInfo = await bot.telegram.getMe();
+
+  find_bot(BotInfo.id.toString()).then((x) => {{
+    botDetails = x;
+    console.log("Bot is loaded")
+  }})
 
   bot.launch();
 
@@ -25,4 +33,4 @@ const initializeBot = (token) => {
   // Start the bot with the provided token
 };
 
-export { bot, initializeBot };
+export { bot, initializeBot, botDetails };
